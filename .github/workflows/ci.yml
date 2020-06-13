@@ -61,5 +61,11 @@ jobs:
       env:
         DEPLOY_KEY: ${{ secrets.MY_V2_SERVER_PRIVATE_KEY }}
       with:
-        args: "-avzr --delete ${{ env.MY_V2_USER }}@${{ env.MY_V2_IP }}:/usr/share/nginx/stock"
-
+        args: "-avzr --delete ${{ env.MY_V2_USER }}@${{ env.MY_V2_IP }}:/usr/share/nginx/html/"
+    - name: ls -a via ssh
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: mv /usr/share/nginx/html/dist/* /usr/share/nginx/html
+        host: ${{ env.MY_V2_IP }}
+        username: ${{ env.MY_V2_USER }}
+        privateKey: ${{ secrets.MY_V2_SERVER_PRIVATE_KEY}}
